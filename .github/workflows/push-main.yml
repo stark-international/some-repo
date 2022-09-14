@@ -1,0 +1,18 @@
+name: Push to Main
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+
+jobs:
+  prerelease:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: saml-to/assume-aws-role-action@v1
+        with:
+          role: arn:aws:iam::874599868815:role/stark-international-administrator
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - run: aws sts get-caller-identity
